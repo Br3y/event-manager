@@ -2,8 +2,9 @@ require 'csv'
 
 puts "EventManager Initialized."
 
-contents = CSV.open("./event_attendees.csv", headers: true)
+contents = CSV.open('./event_attendees.csv', headers: true, header_converters: :symbol)
 contents.each do |row|
-  name = row[2]
-  puts name
+  name = row[:first_name]
+  zip = row[:zipcode]
+  puts "#{name} #{zip}"
 end
