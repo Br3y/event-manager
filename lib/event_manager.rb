@@ -27,6 +27,8 @@ end
 
 puts "EventManager Initialized."
 
+template_letter = File.read("../form_letter.html")
+
 contents = CSV.open('./event_attendees.csv', headers: true, header_converters: :symbol)
 contents.each do |row|
   name = row[:first_name]
