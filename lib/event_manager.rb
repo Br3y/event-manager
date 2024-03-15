@@ -35,5 +35,8 @@ contents.each do |row|
   zip = clean_zipcodes(row[:zipcode])
   legislators = legislators_by_zipcode(zip)
 
+  personal_letter = template_letter.gsub("FIRST_NAME", name).gsub("LEGISLATORS", legislators)
+
   puts "#{name} #{zip} #{legislators}"
+  puts personal_letter
 end
