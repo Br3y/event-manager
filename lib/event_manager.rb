@@ -1,5 +1,6 @@
 require 'csv'
 require 'google/apis/civicinfo_v2'
+require 'erb'
 
 def clean_zipcodes(zip)
   zip.to_s.rjust(5, "0")[0..4]
@@ -27,7 +28,8 @@ end
 
 puts "EventManager Initialized."
 
-template_letter = File.read("../form_letter.html")
+template_letter = File.read("../form_letter.erb")
+erb_template = ERB.new(template_letter)
 
 contents = CSV.open('./event_attendees.csv', headers: true, header_converters: :symbol)
 contents.each do |row|
@@ -35,8 +37,6 @@ contents.each do |row|
   zip = clean_zipcodes(row[:zipcode])
   legislators = legislators_by_zipcode(zip)
 
-  personal_letter = template_letter.gsub("FIRST_NAME", name).gsub("LEGISLATORS", legislators)
-
-  puts "#{name} #{zip} #{legislators}"
-  puts personal_letter
+  form_letter = erb_template.result(binding)
+  puts form_letter
 end
