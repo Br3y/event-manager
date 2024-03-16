@@ -15,12 +15,7 @@ def legislators_by_zipcode(zip)
       address: zip,
       levels: 'country',
       roles: ['legislatorUpperBody', 'legislatorLowerBody']
-    )
-    legislators = legislators.officials
-
-    legislator_names = legislators.map(&:name)
-
-    legislator_strings = legislator_names.join(", ")
+    ).officials
   rescue
     'You can find your representatives by visiting www.commoncause.org/take-action/find-elected-officials'
   end
