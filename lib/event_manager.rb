@@ -43,9 +43,25 @@ contents.each do |row|
 
   zip = clean_zipcodes(row[:zipcode])
 
+  phone = row[:homephone]
+
   legislators = legislators_by_zipcode(zip)
 
   form_letter = erb_template.result(binding)
-
+  
+  if phone.nil?
+    phone = 'bad number'
+  elsif phone.length < 10
+    phone += " - bad number"
+  elsif phone.length == 11
+    if phone[0] == "1"
+      phone = "#{phone[1..-1]}"
+    else
+      phone += ' - bad number'
+    end
+  elsif phone.gsub(/\D/, "").length > 11
+    phone += ' - bad number'
+  end
+  puts phone
   save_thank_you_letter(id, form_letter)
 end
