@@ -1,3 +1,5 @@
+require 'csv'
+
 puts 'Event Manager Initialized!'
 
 # Iteration 0: Loading a file
@@ -38,3 +40,14 @@ puts 'Event Manager Initialized!'
 # end
 
 # "Look for a solution before building a solution"
+
+
+# Iteration 1: Parsing with CSV
+
+# # Switching over to use the CSV Library
+# contents = CSV.open("event_attendees.csv", headers: true)
+# contents.each do |row|
+#   name = row[2]
+#   puts name
+# end
+
