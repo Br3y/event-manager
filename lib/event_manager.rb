@@ -51,3 +51,13 @@ puts 'Event Manager Initialized!'
 #   puts name
 # end
 
+# # Accessing columns by their names
+# contents = CSV.open(
+#   "event_attendees.csv",
+#   headers: true,
+#   header_converters: :symbol
+# )
+# contents.each do |row|
+#   name = row[:first_name]
+#   puts name
+# end
