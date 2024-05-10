@@ -78,19 +78,19 @@ puts 'Event Manager Initialized!'
 
 # Iteration 2: Cleaning up our zip codes
 
-def clean_zipcode(zip)
-  zip.to_s.rjust(5, "0")[0..4]
-end
+# def clean_zipcode(zip)
+#   zip.to_s.rjust(5, "0")[0..4]
+# end
 
-contents = CSV.open(
-  "event_attendees.csv",
-  headers: true,
-  header_converters: :symbol
-)
+# contents = CSV.open(
+#   "event_attendees.csv",
+#   headers: true,
+#   header_converters: :symbol
+# )
 
-contents.each do |row|
-  name = row[:first_name]
-  zip = clean_zipcode(row[:zipcode])
+# contents.each do |row|
+#   name = row[:first_name]
+#   zip = clean_zipcode(row[:zipcode])
 
-  puts "#{name} #{zip}"
-end
+#   puts "#{name} #{zip}"
+# end
