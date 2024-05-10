@@ -79,15 +79,7 @@ puts 'Event Manager Initialized!'
 # Iteration 2: Cleaning up our zip codes
 
 def clean_zipcode(zip)
-  if zip.nil?
-    zip = "00000"
-  elsif zip.length < 5
-    zip = zip.rjust(5, "0")
-  elsif zip.length > 5
-    zip = zip[0..4]
-  else
-    zip
-  end
+  zip.to_s.rjust(5, "0")[0..4]
 end
 
 contents = CSV.open(
