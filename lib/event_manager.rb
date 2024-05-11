@@ -122,7 +122,7 @@ def legislator_by_zipcode(zipcode)
 
     legislator_names = legislators.map(&:name)
 
-    legislator_string = legislator_names.join(", ")
+    legislator_names.join(", ")
   rescue 
     'You can find your representatives by visiting www.commoncause.org/take-action/find-elected-officials'
   end
