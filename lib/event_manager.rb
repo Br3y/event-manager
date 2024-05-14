@@ -144,7 +144,7 @@ puts 'Event Manager Initialized!'
 
 # Iteration 4: Form Letters
 
-template_letter = File.read("form_letter.html")
+template_letter = File.read("form_letter.erb")
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5, "0")[0..4]
