@@ -193,14 +193,47 @@ contents.each do |row|
   name = row[:first_name]
   zipcode = clean_zipcode(row[:zipcode])
   legislators = legislator_by_zipcode(zipcode)
+  phone = row[:homephone]
+
+  # verify_phone = phone.gsub(" ", "").gsub(".", "").gsub("-", "").gsub("(", "").gsub(")", "")
+  verify_phone = phone.gsub(/[\s.\-()]/, "")
+
+  # if verify_phone.nil?
+  #   phone = " - Bad Number"
+  # elsif verify_phone.length < 10
+  #   phone += " - Bad Number"
+  # elsif verify_phone.length == 10
+  #   phone += " - Good Number"
+  # elsif verify_phone.length >= 11
+  #   if verify_phone[0] == "1"
+  #     phone += " - Good Number"
+  #   else
+  #     phone += " - Bad Number"
+  #   end
+  # elsif verify_phone >= 12
+  #   phone += " - Bad Number"
+  # end 
+
+  case verify_phone.length
+  when 0..9
+    phone += " - Bad Number"
+  when 10
+    phone += " - Good Nmber"
+  when 11
+    phone += verify_phone[0] == "1" ? " - Good Number" : " - Bad Number"
+  else
+    phone += " - Bad Number"
+  end
   
   # personal_letter = template_letter.gsub("FIRST_NAME", name)
   # personal_letter.gsub!('LEGISLATORS', legislators)
   # personal_letter = personal_letter.gsub("LEGISLATORS", legislators)
-
+  
   form_letter = erb_template.result(binding)
-
+  
   save_thank_you_letter(id, form_letter)
-
+  
+  puts phone
+  
   # puts "#{name} #{zipcode} #{legislators}"
 end
