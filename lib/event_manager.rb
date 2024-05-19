@@ -182,18 +182,7 @@ def save_thank_you_letter(id, form_letter)
   
 end
 
-contents = CSV.open(
-  "event_attendees.csv",
-  headers: true,
-  header_converters: :symbol
-)
-
-contents.each do |row|
-  id = row[0]
-  name = row[:first_name]
-  zipcode = clean_zipcode(row[:zipcode])
-  legislators = legislator_by_zipcode(zipcode)
-  phone = row[:homephone]
+def clean_homephone(phone)
 
   # verify_phone = phone.gsub(" ", "").gsub(".", "").gsub("-", "").gsub("(", "").gsub(")", "")
   verify_phone = phone.gsub(/[\s.\-()]/, "")
@@ -224,6 +213,20 @@ contents.each do |row|
   else
     phone += " - Bad Number"
   end
+end
+
+contents = CSV.open(
+  "event_attendees.csv",
+  headers: true,
+  header_converters: :symbol
+)
+
+contents.each do |row|
+  id = row[0]
+  name = row[:first_name]
+  zipcode = clean_zipcode(row[:zipcode])
+  legislators = legislator_by_zipcode(zipcode)
+  phone = clean_homephone(row[:homephone])
   
   # personal_letter = template_letter.gsub("FIRST_NAME", name)
   # personal_letter.gsub!('LEGISLATORS', legislators)
