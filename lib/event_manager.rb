@@ -1,6 +1,7 @@
 require 'csv'
 require 'google/apis/civicinfo_v2'
 require 'erb'
+require 'date'
 
 puts 'Event Manager Initialized!'
 
@@ -221,13 +222,22 @@ contents = CSV.open(
   header_converters: :symbol
 )
 
+registration_hours = Hash.new(0)
+
 contents.each do |row|
   id = row[0]
   name = row[:first_name]
   zipcode = clean_zipcode(row[:zipcode])
   legislators = legislator_by_zipcode(zipcode)
   phone = clean_homephone(row[:homephone])
+  regdate = DateTime.strptime(row[:regdate], "%m/%d/%y %H:%S")
+  reg_hour = regdate.hour
+  registration_hours[reg_hour] += 1
+
+  peak_reg_hour = registration_hours.max_by { |hour, count| count }[0]
   
+  puts "The peak registration hour is: #{peak_reg_hour}"
+
   # personal_letter = template_letter.gsub("FIRST_NAME", name)
   # personal_letter.gsub!('LEGISLATORS', legislators)
   # personal_letter = personal_letter.gsub("LEGISLATORS", legislators)
