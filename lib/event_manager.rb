@@ -234,6 +234,8 @@ contents = CSV.open(
 )
 
 registration_hours = Hash.new(0)
+registration_days = Hash.new(0)
+days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
 contents.each do |row|
   id = row[0]
@@ -242,6 +244,11 @@ contents.each do |row|
   legislators = legislator_by_zipcode(zipcode)
   phone = clean_homephone(row[:homephone])
   regdate = clean_registration_hours(DateTime.strptime(row[:regdate], "%m/%d/%y %H:%S"), registration_hours)
+  regday = DateTime.strptime(row[:regdate], "%m/%d/%y %H:%S").wday
+  
+  puts "#{regday} = #{days[regday]}"
+
+  registration_days[regday] += 1
 
   # personal_letter = template_letter.gsub("FIRST_NAME", name)
   # personal_letter.gsub!('LEGISLATORS', legislators)
@@ -255,3 +262,9 @@ contents.each do |row|
   
   # puts "#{name} #{zipcode} #{legislators}"
 end
+
+peak_reg_days = registration_days.max_by { |day, count| count }[0]
+
+puts "The peak registration hour is: #{days[peak_reg_days]}"
+
+puts registration_days
