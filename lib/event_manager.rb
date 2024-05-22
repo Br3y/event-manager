@@ -216,6 +216,17 @@ def clean_homephone(phone)
   end
 end
 
+def clean_registration_hours(regdate, registration_hours)
+  
+  reg_hour = regdate.hour
+  registration_hours[reg_hour] += 1
+
+  peak_reg_hour = registration_hours.max_by { |hour, count| count }[0]
+  peak_reg_hour_count = registration_hours.max_by { |hour, count| count }[1]
+  
+  puts "The peak registration hour is: #{peak_reg_hour} with count of #{peak_reg_hour_count}"
+end
+
 contents = CSV.open(
   "event_attendees.csv",
   headers: true,
@@ -230,13 +241,7 @@ contents.each do |row|
   zipcode = clean_zipcode(row[:zipcode])
   legislators = legislator_by_zipcode(zipcode)
   phone = clean_homephone(row[:homephone])
-  regdate = DateTime.strptime(row[:regdate], "%m/%d/%y %H:%S")
-  reg_hour = regdate.hour
-  registration_hours[reg_hour] += 1
-
-  peak_reg_hour = registration_hours.max_by { |hour, count| count }[0]
-  
-  puts "The peak registration hour is: #{peak_reg_hour}"
+  regdate = clean_registration_hours(DateTime.strptime(row[:regdate], "%m/%d/%y %H:%S"), registration_hours)
 
   # personal_letter = template_letter.gsub("FIRST_NAME", name)
   # personal_letter.gsub!('LEGISLATORS', legislators)
